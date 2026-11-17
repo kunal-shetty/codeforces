@@ -1,0 +1,32 @@
+name: Feature request
+description: An idea that would help people practise.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does it solve?
+      description: Who is it for, and what's hard for them today?
+      placeholder: When I upsolve after a contest I lose track of which problems I meant to come back to...
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How it could work in the app. Sketches and screenshots of similar things are welcome.
+    validations:
+      required: true
+  - type: dropdown
+    id: site
+    attributes:
+      label: Site
+      options: [Codeforces, LeetCode, Both]
+  - type: checkboxes
+    id: fit
+    attributes:
+      label: Fits the project
+      description: See the project rules in CONTRIBUTING.md.
+      options:
+        - label: Works without adding a third-party library
+        - label: I'd like to build this myself
