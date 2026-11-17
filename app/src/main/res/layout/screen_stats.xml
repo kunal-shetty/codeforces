@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:orientation="horizontal">
+
+            <LinearLayout android:id="@+id/tile_streak" style="@style/Tile">
+                <TextView android:id="@+id/st_streak" style="@style/TileValue" />
+                <TextView style="@style/Label" android:text="Streak" />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/tile_best" style="@style/Tile">
+                <TextView android:id="@+id/st_best" style="@style/TileValue" />
+                <TextView style="@style/Label" android:text="Best" />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/tile_solved" style="@style/Tile">
+                <TextView android:id="@+id/st_solved" style="@style/TileValue" />
+                <TextView style="@style/Label" android:text="Solved" />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/tile_daily" style="@style/Tile" android:layout_marginEnd="0dp">
+                <TextView android:id="@+id/st_daily" style="@style/TileValue" />
+                <TextView style="@style/Label" android:text="Daily" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/coach_card" style="@style/Card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView style="@style/Heading" android:layout_width="0dp" android:layout_marginBottom="0dp" android:layout_weight="1" android:text="✦  Weekly coach" />
+
+                <TextView android:id="@+id/btn_coach" style="@style/ChipGhost" android:layout_marginEnd="0dp" android:text="Plan my week" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/coach_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView style="@style/Heading" android:text="Activity" />
+
+            <com.kun.cfdaily.ui.HeatmapView
+                android:id="@+id/heatmap"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+
+            <TextView android:id="@+id/tv_heatmap" style="@style/Label" android:layout_marginTop="8dp" android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView android:id="@+id/tv_bars_title" style="@style/Heading" android:text="Solved by rating" />
+
+            <LinearLayout
+                android:id="@+id/diff_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <com.kun.cfdaily.ui.RatingBarsView
+                android:id="@+id/bars"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+
+            <TextView android:id="@+id/tv_bars" style="@style/Label" android:layout_marginTop="8dp" android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView style="@style/Heading" android:text="Rating" />
+
+            <com.kun.cfdaily.ui.RatingGraphView
+                android:id="@+id/graph"
+                android:layout_width="match_parent"
+                android:layout_height="190dp" />
+
+            <TextView android:id="@+id/tv_graph" style="@style/Label" android:layout_marginTop="8dp" android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView style="@style/Heading" android:text="Tags" />
+
+            <com.kun.cfdaily.ui.FlowLayout
+                android:id="@+id/weak_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/tag_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView style="@style/Heading" android:text="History" />
+
+            <LinearLayout
+                android:id="@+id/history_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
