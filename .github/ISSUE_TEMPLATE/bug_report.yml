@@ -1,0 +1,59 @@
+name: Bug report
+description: Something in the app doesn't work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting! Please don't paste API keys or anything private.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Switch to LeetCode
+        2. Open Today and tap ✦ on the first card
+        3. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: site
+    attributes:
+      label: Site
+      options: [Codeforces, LeetCode, Both]
+    validations:
+      required: true
+  - type: input
+    id: problem
+    attributes:
+      label: Problem ID (if it's about one problem)
+      placeholder: 1741D or two-sum
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Settings → Apps → Upsolve shows it.
+      placeholder: "3.1"
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Phone and Android version
+      placeholder: Pixel 7, Android 14
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options: [Light, Dark, Both]
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag images here. Blur anything private.
