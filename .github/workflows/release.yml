@@ -15,7 +15,7 @@ jobs:
       # Empty when the signing secrets aren't set; the steps below check it.
       KEYSTORE_B64: ${{ secrets.UPSOLVE_KEYSTORE_BASE64 }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-java@v4
         with:
