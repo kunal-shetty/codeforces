@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_card" />
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.12"
+                android:centerY="0"
+                android:endColor="#00A5D8FF"
+                android:gradientRadius="230dp"
+                android:startColor="#66A5D8FF"
+                android:type="radial" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+</layer-list>
