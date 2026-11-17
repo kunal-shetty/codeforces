@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Input"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:hint="The trick, or why you saved it"
+    android:inputType="textMultiLine|textCapSentences"
+    android:maxLines="4"
+    android:minLines="2" />
