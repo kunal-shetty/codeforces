@@ -1,0 +1,31 @@
+name: Template miss
+description: A Codeforces template reads the input wrong, or shows ⚠ when it shouldn't.
+labels: [template, good first issue]
+body:
+  - type: input
+    id: problem
+    attributes:
+      label: Problem
+      description: Contest ID and index, or the link.
+      placeholder: 1741D or https://codeforces.com/contest/1741/problem/D
+    validations:
+      required: true
+  - type: dropdown
+    id: badge
+    attributes:
+      label: What did the badge say?
+      options:
+        - "✓ Reads the sample input (but the code is still wrong)"
+        - "⚠ Check the reading part"
+        - "⚠ Queries or uneven lines"
+        - "⚠ Couldn't load the statement"
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What's wrong in the generated code?
+      description: Paste the reading part, and what it should be.
+      render: cpp
+    validations:
+      required: true
