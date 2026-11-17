@@ -1,0 +1,55 @@
+name: Release
+
+# Push a tag like v3.2.0 to build the APK and publish a GitHub release with it.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      # Empty when the signing secrets aren't set; the steps below check it.
+      KEYSTORE_B64: ${{ secrets.UPSOLVE_KEYSTORE_BASE64 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Make the Gradle wrapper executable
+        run: chmod +x gradlew
+
+      # With the signing secrets set, every release is signed with the same key, so it installs as an update.
+      - name: Build signed release
+        if: env.KEYSTORE_B64 != ''
+        env:
+          UPSOLVE_KEYSTORE_PASSWORD: ${{ secrets.UPSOLVE_KEYSTORE_PASSWORD }}
+          UPSOLVE_KEY_ALIAS: ${{ secrets.UPSOLVE_KEY_ALIAS }}
+          UPSOLVE_KEY_PASSWORD: ${{ secrets.UPSOLVE_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upsolve.jks"
+          UPSOLVE_KEYSTORE="$RUNNER_TEMP/upsolve.jks" ./gradlew assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk "Upsolve-${GITHUB_REF_NAME}.apk"
+
+      # Without them, a debug-signed APK is published: fine to try, but it can't update an earlier release.
+      - name: Build debug fallback
+        if: env.KEYSTORE_B64 == ''
+        run: |
+          ./gradlew assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk "Upsolve-${GITHUB_REF_NAME}.apk"
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: Upsolve-*.apk
+          generate_release_notes: true
+          body: |
+            Install: download the APK below on your phone and open it.
+            What changed: [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
