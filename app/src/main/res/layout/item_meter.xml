@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp">
+
+    <TextView
+        android:id="@+id/tv_left"
+        android:layout_width="118dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text"
+        android:textSize="13sp" />
+
+    <com.kun.cfdaily.ui.MeterView
+        android:id="@+id/meter"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/hg_semibold"
+        android:gravity="end"
+        android:minWidth="34dp"
+        android:textColor="@color/subtext"
+        android:textSize="13sp" />
+</LinearLayout>
