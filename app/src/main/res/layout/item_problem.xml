@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="14dp">
+
+        <TextView android:id="@+id/tv_rating" style="@style/Badge" android:gravity="center" android:minWidth="52dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView android:id="@+id/tv_name" style="@style/Name" android:textSize="15sp" />
+
+            <TextView android:id="@+id/tv_meta" style="@style/Body" android:layout_marginTop="2dp" android:ellipsize="end" android:maxLines="1" android:textColor="@color/faint" android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_note"
+                style="@style/Body"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/amber"
+                android:textSize="13sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_code"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:contentDescription="Template"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:text="&lt;/&gt;"
+            android:textColor="@color/violet"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btn_star"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:contentDescription="Save"
+            android:padding="10dp" />
+    </LinearLayout>
+</LinearLayout>
