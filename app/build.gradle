@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.kun.cfdaily'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.kun.cfdaily"
+        minSdk 26
+        targetSdk 34
+        versionCode 7
+        versionName "3.1"
+    }
+
+    // Release signing comes from environment variables (set by the Release workflow from repository secrets),
+    // so every published APK carries the same key and installs as an update. Never commit the keystore.
+    def keystore = System.getenv("UPSOLVE_KEYSTORE")
+    signingConfigs {
+        if (keystore) {
+            release {
+                storeFile file(keystore)
+                storePassword System.getenv("UPSOLVE_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("UPSOLVE_KEY_ALIAS")
+                keyPassword System.getenv("UPSOLVE_KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (keystore) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
