@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0C0C0F</color>
+    <color name="card">#17171C</color>
+    <color name="raised">#22222A</color>
+    <color name="hairline">#26262E</color>
+    <color name="text">#F5F4F7</color>
+    <color name="subtext">#B9B7C2</color>
+    <color name="faint">#8B8996</color>
+    <color name="accent">#7CB2FF</color>
+    <color name="blue">#7CB2FF</color>
+    <color name="violet">#A995FF</color>
+    <color name="pink">#FF8DBB</color>
+    <color name="mint">#5EDDA6</color>
+    <color name="amber">#F5C451</color>
+    <color name="coral">#FF8A73</color>
+    <color name="good">#5EDDA6</color>
+    <color name="ink">#F5F4F7</color>
+    <color name="on_primary">#15141A</color>
+    <color name="hero">#1D1D24</color>
+    <color name="hero_text">#F5F4F7</color>
+    <color name="hero_sub">#B9B7C2</color>
+    <color name="hero_tile">#2A2A33</color>
+    <color name="sheet">#1B1B21</color>
+    <color name="snack_bg">#F2F5F4F7</color>
+    <color name="snack_text">#15141A</color>
+    <color name="handle">#3A3A44</color>
+    <color name="nav">#22222A</color>
+    <color name="nav_icon">#8B8996</color>
+    <color name="p_mint">#143A2B</color>
+    <color name="p_sky">#152C4D</color>
+    <color name="p_lilac">#2B2452</color>
+    <color name="p_peach">#48271B</color>
+    <color name="p_butter">#433612</color>
+    <color name="p_rose">#481E32</color>
+    <color name="soft">#24FFFFFF</color>
+</resources>
