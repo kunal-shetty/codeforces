@@ -93,7 +93,7 @@ public class Coach {
 
     private void run() {
         if (!Ai.ready(a)) {
-            a.select(4);
+            a.select(MainActivity.TAB_PROFILE);
             a.snack("Add your Groq key here first");
             return;
         }
