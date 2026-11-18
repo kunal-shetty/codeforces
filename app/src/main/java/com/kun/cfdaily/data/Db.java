@@ -539,7 +539,7 @@ public class Db extends SQLiteOpenHelper {
     /** Next unsolved problems in a track: easiest level first, then the most accepted. */
     public List<Problem> trackProblems(String tag, int limit) {
         String sql = "SELECT " + PCOLS + " FROM problems p" + PJOIN
-                + "WHERE p.tags LIKE ? AND IFNULL(u.solved,0)=0 ORDER BY p.rating ASC, p.solved_count DESC LIMIT " + limit;
+                + "WHERE p.tags LIKE ? AND IFNULL(u.solved,0)=0 AND p.rating>0 ORDER BY p.rating ASC, p.solved_count DESC LIMIT " + limit;
         return readProblems(sql, new String[]{"%|" + tag + "|%"});
     }
 
