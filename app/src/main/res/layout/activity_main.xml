@@ -67,6 +67,10 @@
                 <ImageView android:layout_width="46dp" android:layout_height="46dp" android:layout_gravity="center" android:contentDescription="Today" android:padding="11dp" android:src="@drawable/ic_tab_today" />
             </FrameLayout>
 
+            <FrameLayout android:id="@+id/tab5" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+                <ImageView android:layout_width="46dp" android:layout_height="46dp" android:layout_gravity="center" android:contentDescription="Learn" android:padding="11dp" android:src="@drawable/ic_tab_learn" />
+            </FrameLayout>
+
             <FrameLayout android:id="@+id/tab1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
                 <ImageView android:layout_width="46dp" android:layout_height="46dp" android:layout_gravity="center" android:contentDescription="Contests" android:padding="11dp" android:src="@drawable/ic_tab_contests" />
             </FrameLayout>
