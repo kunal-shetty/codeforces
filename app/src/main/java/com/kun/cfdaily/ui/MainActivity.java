@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.kun.cfdaily.R;
+import com.kun.cfdaily.data.Cloud;
 import com.kun.cfdaily.data.Db;
 import com.kun.cfdaily.data.Mode;
 import com.kun.cfdaily.data.Reminders;
@@ -25,7 +26,12 @@ import com.kun.cfdaily.data.Sync;
 
 public class MainActivity extends Activity {
 
-    private static final int[] TAB_IDS = {R.id.tab0, R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4};
+    /** Tab order on screen. tab5 (Learn) was added later, so its id is out of sequence. */
+    private static final int[] TAB_IDS = {R.id.tab0, R.id.tab5, R.id.tab1, R.id.tab2, R.id.tab3, R.id.tab4};
+    public static final int TAB_TODAY = 0;
+    public static final int TAB_LEARN = 1;
+    public static final int TAB_CONTESTS = 2;
+    public static final int TAB_PROFILE = 5;
 
     private Screen[] screens;
     private ViewGroup[] tabs;
@@ -46,7 +52,7 @@ public class MainActivity extends Activity {
     private final Runnable tick = new Runnable() {
         @Override
         public void run() {
-            if (current == 1) screens[current].refresh();
+            if (current == TAB_CONTESTS) screens[current].refresh();
             ticker.postDelayed(this, 30000);
         }
     };
@@ -113,6 +119,7 @@ public class MainActivity extends Activity {
 
         screens = new Screen[]{
                 new TodayScreen(this),
+                new LearnScreen(this),
                 new ContestsScreen(this),
                 new ProblemsScreen(this),
                 new StatsScreen(this),
@@ -134,9 +141,29 @@ public class MainActivity extends Activity {
         requestNotifications();
 
         Db db = Db.get(this);
-        select(db.kv("handle", "").length() == 0 ? 4 : (state != null ? state.getInt("tab", 0) : 0));
+        select(db.kv("handle", "").length() == 0 ? TAB_PROFILE : (state != null ? state.getInt("tab", TAB_TODAY) : TAB_TODAY));
         long last = db.kvLong("last_sync", 0);
         if (System.currentTimeMillis() - last > 6L * 3600 * 1000) startSync(false);
+        // Also after a restore: Android may have killed the app while the browser was open.
+        // handleLink clears the link, so a rotation doesn't replay it.
+        handleLink(getIntent());
+        Cloud.sync(this, null);
+    }
+
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        handleLink(intent);
+    }
+
+    /** upsolve://auth?code=… : the browser coming back from Google sign-in. */
+    private void handleLink(android.content.Intent intent) {
+        android.net.Uri uri = intent == null ? null : intent.getData();
+        if (uri == null || !"upsolve".equals(uri.getScheme()) || !"auth".equals(uri.getHost())) return;
+        intent.setData(null);
+        hideSheet();
+        select(TAB_LEARN);
+        ((LearnScreen) screens[TAB_LEARN]).googleReturned(uri);
     }
 
     @Override
