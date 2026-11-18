@@ -1,0 +1,207 @@
+{
+  "id": "prefix-sums",
+  "title": "Prefix Sums",
+  "summary": "Sum any range in O(1) after one pass",
+  "icon": "Σ",
+  "color": "lilac",
+  "practice": {"lc": "Prefix Sum"},
+  "lessons": [
+    {
+      "id": "prefix-sums.1",
+      "title": "Any range in O(1)",
+      "steps": [
+        {
+          "type": "card",
+          "title": "Lots of range questions",
+          "body": "What's the sum of a[l..r]? Asked once, just add it up. Asked q times, that's O(n) each and O(n · q) in total: 10¹⁰ when n and q are 10⁵."
+        },
+        {
+          "type": "card",
+          "title": "Running totals",
+          "body": "p[i] is the sum of the first i numbers. Then the sum of a[l..r] is p[r + 1] - p[l]. Build p once in O(n), then answer every range in O(1).",
+          "code": "vector<long long> p(n + 1, 0);\nfor (int i = 0; i < n; i++)\n    p[i + 1] = p[i] + a[i];\n// sum of a[l..r] = p[r + 1] - p[l]"
+        },
+        {
+          "type": "trace",
+          "title": "Watch p fill up for a = [2, 4, 1, 5]",
+          "array": [0, "?", "?", "?", "?"],
+          "frames": [
+            {"i": 1, "note": "p[1] = p[0] + a[0] = 0 + 2"},
+            {"array": [0, 2, "?", "?", "?"], "i": 2, "note": "p[2] = p[1] + a[1] = 2 + 4"},
+            {"array": [0, 2, 6, "?", "?"], "i": 3, "note": "p[3] = 6 + 1"},
+            {"array": [0, 2, 6, 7, "?"], "i": 4, "note": "p[4] = 7 + 5"},
+            {"array": [0, 2, 6, 7, 12], "range": [0, 4], "note": "Done. p[4] = 12 is the sum of everything"}
+          ]
+        },
+        {
+          "type": "choice",
+          "prompt": "a = [3, 1, 2]. What is p?",
+          "options": ["[0, 3, 4, 6]", "[3, 4, 6]", "[0, 3, 1, 2]", "[6, 3, 2, 0]"],
+          "answer": 0,
+          "why": "p starts at 0 and adds one number at a time: 0, 3, 4, 6."
+        },
+        {
+          "type": "choice",
+          "prompt": "p = [0, 2, 6, 7, 12]. What is the sum of a[1..2]?",
+          "options": ["5", "7", "6", "10"],
+          "answer": 0,
+          "why": "p[3] - p[1] = 7 - 2 = 5, which is 4 + 1."
+        },
+        {
+          "type": "type",
+          "prompt": "p = [0, 2, 6, 7, 12]. What is the sum of a[0..3]?",
+          "answer": "12",
+          "why": "p[4] - p[0] = 12 - 0."
+        },
+        {
+          "type": "blank",
+          "prompt": "Finish the range-sum formula",
+          "code": "sum(l, r) = p[___] - p[l]",
+          "options": ["r + 1", "r", "r - 1"],
+          "answer": 0,
+          "why": "p[r + 1] holds a[0..r]. Subtracting p[l] removes a[0..l-1]."
+        },
+        {
+          "type": "choice",
+          "prompt": "Why does p have n + 1 slots, with p[0] = 0?",
+          "options": ["Ranges starting at 0 need no special case", "To store n", "It runs faster", "Vectors need an even size"],
+          "answer": 0,
+          "why": "sum(0, r) is just p[r + 1] - p[0], so no if is needed."
+        },
+        {
+          "type": "choice",
+          "prompt": "Why long long for p?",
+          "options": ["Sums of many ints can pass 2 · 10⁹", "It's faster", "vector needs it", "For negative numbers"],
+          "answer": 0,
+          "why": "10⁵ numbers up to 10⁹ add up to 10¹⁴, far past int."
+        },
+        {
+          "type": "order",
+          "prompt": "Build p",
+          "lines": [
+            "vector<long long> p(n + 1, 0);",
+            "for (int i = 0; i < n; i++)",
+            "p[i + 1] = p[i] + a[i];"
+          ],
+          "why": "Make room for n + 1 totals, then add one number at a time."
+        },
+        {
+          "type": "choice",
+          "prompt": "n numbers and q range queries. Total time?",
+          "options": ["O(n + q)", "O(n · q)", "O(q log n)", "O(n²)"],
+          "answer": 0,
+          "why": "O(n) to build p, then O(1) for each query."
+        },
+        {
+          "type": "match",
+          "prompt": "Match each value to its meaning",
+          "pairs": [
+            ["p[r + 1] - p[l]", "sum of a[l..r]"],
+            ["p[0]", "0"],
+            ["p[n]", "sum of everything"]
+          ],
+          "why": "Every range is the difference of two running totals."
+        }
+      ]
+    },
+    {
+      "id": "prefix-sums.2",
+      "title": "Subarrays that sum to k",
+      "steps": [
+        {
+          "type": "card",
+          "title": "Prefix sums + a map",
+          "body": "a[l..r] sums to k when p[r + 1] - p[l] = k, so you need an earlier prefix equal to p - k. Walk once, count every prefix seen so far, and look up p - k.",
+          "code": "map<long long, int> seen;\nseen[0] = 1;\nlong long p = 0, ans = 0;\nfor (int x : a) {\n    p += x;\n    ans += seen[p - k];\n    seen[p]++;\n}"
+        },
+        {
+          "type": "trace",
+          "title": "Watch it run: a = [1, 1, 1], k = 2",
+          "array": [1, 1, 1],
+          "frames": [
+            {"i": 0, "note": "p = 1. Look for 1 - 2 = -1: never seen. Record 1"},
+            {"i": 1, "note": "p = 2. Look for 0: seen once, so ans = 1. Record 2"},
+            {"i": 2, "note": "p = 3. Look for 1: seen once, so ans = 2"},
+            {"range": [0, 2], "note": "ans = 2: [1, 1] at the start and at the end"}
+          ]
+        },
+        {
+          "type": "choice",
+          "prompt": "Why start with seen[0] = 1?",
+          "options": ["It counts subarrays that start at index 0", "It avoids dividing by zero", "A map can't start empty", "So ans starts at 1"],
+          "answer": 0,
+          "why": "The empty prefix has sum 0. Without it, a[0..r] = k is never counted."
+        },
+        {
+          "type": "choice",
+          "prompt": "a = [1, 2, 3], k = 3. What is ans?",
+          "options": ["2", "1", "3", "0"],
+          "answer": 0,
+          "why": "[1, 2] and [3] both sum to 3."
+        },
+        {
+          "type": "type",
+          "prompt": "a = [3, 4, 7], k = 7. How many subarrays sum to 7?",
+          "answer": "2",
+          "why": "[3, 4] and [7]."
+        },
+        {
+          "type": "blank",
+          "prompt": "Which earlier prefix are you looking for?",
+          "code": "ans += seen[p ___ k];",
+          "options": ["-", "+", "*"],
+          "answer": 0,
+          "why": "p - (earlier prefix) = k, so the earlier prefix is p - k."
+        },
+        {
+          "type": "order",
+          "prompt": "Put the loop body in order",
+          "lines": [
+            "for (int x : a) {",
+            "p += x;",
+            "ans += seen[p - k];",
+            "seen[p]++;",
+            "}"
+          ],
+          "why": "Look up before you record p, or with k = 0 you'd count an empty subarray."
+        },
+        {
+          "type": "card",
+          "title": "Why not a sliding window?",
+          "body": "A window works when growing it always grows the sum. Negative numbers break that: adding one can make the sum smaller. The map doesn't care about signs."
+        },
+        {
+          "type": "choice",
+          "prompt": "a = [1, -1, 1, -1], k = 0. What is ans?",
+          "options": ["4", "2", "3", "1"],
+          "answer": 0,
+          "why": "Three pairs [1, -1], [-1, 1], [1, -1] and the whole array."
+        },
+        {
+          "type": "choice",
+          "prompt": "n = 10⁵ with a map. Total time?",
+          "options": ["O(n log n)", "O(n²)", "O(n)", "O(log n)"],
+          "answer": 0,
+          "why": "n steps, each a map lookup of O(log n). unordered_map gets close to O(n)."
+        },
+        {
+          "type": "choice",
+          "prompt": "Which problem is this pattern for?",
+          "options": ["Count subarrays with sum exactly k", "Find x in a sorted array", "Remove duplicates", "Sort the array"],
+          "answer": 0,
+          "why": "Prefix sums turn any subarray sum into the difference of two prefixes."
+        },
+        {
+          "type": "match",
+          "prompt": "Match each line to its job",
+          "pairs": [
+            ["seen[0] = 1", "counts ranges from index 0"],
+            ["seen[p - k]", "earlier prefixes that work"],
+            ["seen[p]++", "records this prefix"]
+          ],
+          "why": "Look back, count, then remember where you are."
+        }
+      ]
+    }
+  ]
+}
