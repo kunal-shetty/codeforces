@@ -27,3 +27,13 @@ secrets.properties
 # Template checker scratch files
 tools/template-check/pages/
 tools/template-check/out/
+
+# Backend
+backend/.venv/
+backend/dev.db
+__pycache__/
+.pytest_cache/
+
+# JVM crash dumps
+hs_err_pid*.log
+replay_pid*.log
