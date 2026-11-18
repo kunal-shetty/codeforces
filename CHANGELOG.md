@@ -2,6 +2,18 @@
 
 All notable changes to Upsolve. Versions follow `versionName` in `app/build.gradle`.
 
+## [Unreleased]
+
+### Added
+- **Learn tab**: bite-size lessons per topic (Two Pointers, Binary Search, Prefix Sums to start), 12 steps each. Idea cards, then quick checks: multiple choice, fill the blank, put the code in order, match the pairs and type the answer. Wrong answers come back at the end of the lesson.
+- **Watch it run**: animated array traces where pointers (l, r, mid…) glide between cells step by step.
+- Sound effects generated in code (correct, wrong, combo, stars, lesson done) with a mute button, and read-aloud for idea cards.
+- Combo counter, confetti, shake and pop feedback, and a result screen where stars pop in and XP counts up.
+- XP, a 20 XP daily goal, a learning streak and up to 3 stars per lesson. Each unit links to real unsolved problems with the same tag.
+- Lessons are JSON in `content/learn`, shared by the app and the backend, so new lessons need no Java.
+- **Backend** (`backend/`, FastAPI + Neon Postgres): email and Google sign-in, rotating refresh tokens, and progress backup that merges safely across phones.
+- Sign in from the Learn tab to back up progress (shown when the app is built with a server address).
+
 ## [3.1] - 2026-11-17
 
 ### Added
