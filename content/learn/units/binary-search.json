@@ -1,0 +1,210 @@
+{
+  "id": "binary-search",
+  "title": "Binary Search",
+  "summary": "Halve the range every step, even on the answer",
+  "icon": "½",
+  "color": "sky",
+  "practice": {"cf": "binary search", "lc": "Binary Search"},
+  "lessons": [
+    {
+      "id": "binary-search.1",
+      "title": "Halve the range",
+      "steps": [
+        {
+          "type": "card",
+          "title": "Guess the number",
+          "body": "I pick a number from 1 to 100. After each guess I say higher or lower. Guess 50 first: whatever I answer, half of the numbers are gone in one go."
+        },
+        {
+          "type": "choice",
+          "prompt": "1 to 100, always guessing the middle. At most how many guesses?",
+          "options": ["7", "10", "50", "100"],
+          "answer": 0,
+          "why": "Each guess halves the range: 100, 50, 25, 13, 7, 4, 2, 1."
+        },
+        {
+          "type": "card",
+          "title": "Same idea on an array",
+          "body": "Sorted array. Look at the middle: too small means x is to the right, too big means left. Each check halves what's left, so it's O(log n).",
+          "code": "int lo = 0, hi = n - 1;\nwhile (lo <= hi) {\n    int mid = lo + (hi - lo) / 2;\n    if (a[mid] == x) return mid;\n    if (a[mid] < x) lo = mid + 1;\n    else hi = mid - 1;\n}\nreturn -1;"
+        },
+        {
+          "type": "trace",
+          "title": "Watch it run: find 16",
+          "array": [2, 5, 8, 12, 16, 23, 38],
+          "frames": [
+            {"lo": 0, "mid": 3, "hi": 6, "range": [0, 6], "note": "a[mid] = 12 < 16, so lo = mid + 1"},
+            {"lo": 4, "mid": 5, "hi": 6, "range": [4, 6], "note": "a[mid] = 23 > 16, so hi = mid - 1"},
+            {"lo": 4, "mid": 4, "hi": 4, "range": [4, 4], "note": "a[mid] = 16. Found it in 3 checks"}
+          ]
+        },
+        {
+          "type": "choice",
+          "prompt": "About how many checks for 1,000,000 elements?",
+          "options": ["20", "1,000", "500,000", "1,000,000"],
+          "answer": 0,
+          "why": "2²⁰ is about a million, so about 20 halvings."
+        },
+        {
+          "type": "type",
+          "prompt": "a = [2, 5, 8, 12, 16, 23, 38], x = 38. How many checks until it's found?",
+          "answer": "3",
+          "why": "mid = 12 (go right), mid = 23 (go right), then 38."
+        },
+        {
+          "type": "choice",
+          "prompt": "Why lo + (hi - lo) / 2 and not (lo + hi) / 2?",
+          "options": ["lo + hi can overflow int", "It runs faster", "It rounds up", "It handles negative x"],
+          "answer": 0,
+          "why": "Two indices near 2·10⁹ add up past INT_MAX. hi - lo never does."
+        },
+        {
+          "type": "blank",
+          "prompt": "a[mid] < x, so x is right of mid",
+          "code": "lo = ___;",
+          "options": ["mid + 1", "mid", "mid - 1"],
+          "answer": 0,
+          "why": "a[mid] is already too small, so skip it. lo = mid can loop forever."
+        },
+        {
+          "type": "blank",
+          "prompt": "a[mid] > x, so x is left of mid",
+          "code": "else hi = ___;",
+          "options": ["mid - 1", "mid", "mid + 1"],
+          "answer": 0,
+          "why": "a[mid] is too big, so it's out. Only the left part can hold x."
+        },
+        {
+          "type": "order",
+          "prompt": "Put the search loop in order",
+          "lines": [
+            "while (lo <= hi) {",
+            "int mid = lo + (hi - lo) / 2;",
+            "if (a[mid] == x) return mid;",
+            "if (a[mid] < x) lo = mid + 1;",
+            "else hi = mid - 1;",
+            "}"
+          ],
+          "why": "Find mid, check for a hit, then throw away the half that can't hold x."
+        },
+        {
+          "type": "choice",
+          "prompt": "Binary search for 4 in [3, 1, 4, 1, 5]. What's wrong?",
+          "options": ["The array isn't sorted", "n is odd", "4 appears only once", "Nothing"],
+          "answer": 0,
+          "why": "Going left or right only makes sense when the values are in order."
+        },
+        {
+          "type": "match",
+          "prompt": "Match the size to the checks",
+          "pairs": [
+            ["1,000 elements", "about 10"],
+            ["1,000,000 elements", "about 20"],
+            ["10⁹ elements", "about 30"]
+          ],
+          "why": "Every 1,000 times more data costs only about 10 more checks."
+        }
+      ]
+    },
+    {
+      "id": "binary-search.2",
+      "title": "Search the answer",
+      "steps": [
+        {
+          "type": "card",
+          "title": "NO NO NO YES YES",
+          "body": "Many problems ask for the smallest x that works. If x works means every bigger x works too, the answers look like NO NO YES YES. Binary search finds the first YES.",
+          "code": "long long lo = 0, hi = 1e18; // hi surely works\nwhile (lo < hi) {\n    long long mid = lo + (hi - lo) / 2;\n    if (ok(mid)) hi = mid;\n    else lo = mid + 1;\n}\n// lo = smallest x with ok(x)"
+        },
+        {
+          "type": "trace",
+          "title": "Watch it run: find the first YES",
+          "array": ["NO", "NO", "NO", "YES", "YES", "YES", "YES"],
+          "frames": [
+            {"lo": 0, "mid": 3, "hi": 6, "range": [0, 6], "note": "ok(mid) is YES. It might be the first, so hi = mid"},
+            {"lo": 0, "mid": 1, "hi": 3, "range": [0, 3], "note": "NO. The answer is right of mid: lo = mid + 1"},
+            {"lo": 2, "mid": 2, "hi": 3, "range": [2, 3], "note": "NO again: lo = mid + 1"},
+            {"lo": 3, "hi": 3, "range": [3, 3], "note": "lo == hi. That's the first YES"}
+          ]
+        },
+        {
+          "type": "choice",
+          "prompt": "When can you binary search the answer?",
+          "options": ["ok(x) true means ok(x + 1) true", "The input is sorted", "x is under 10⁶", "ok runs in O(1)"],
+          "answer": 0,
+          "why": "You need the NO…NO YES…YES shape. The input itself doesn't have to be sorted."
+        },
+        {
+          "type": "blank",
+          "prompt": "ok(mid) is true. mid might be the answer, so keep it",
+          "code": "if (ok(mid)) hi = ___;",
+          "options": ["mid", "mid - 1", "mid + 1"],
+          "answer": 0,
+          "why": "mid works, so it stays in the range. mid - 1 could skip the answer."
+        },
+        {
+          "type": "card",
+          "title": "Example: eating speed",
+          "body": "Piles of bananas and h hours. At speed k you eat one pile at a time, and a pile of p takes p / k hours, rounded up. Faster always works if slower does, so binary search k.",
+          "code": "bool ok(long long k) {\n    long long hours = 0;\n    for (int p : piles) hours += (p + k - 1) / k;\n    return hours <= h;\n}"
+        },
+        {
+          "type": "type",
+          "prompt": "What is (7 + 3 - 1) / 3 in C++ integer math?",
+          "answer": "3",
+          "why": "(p + k - 1) / k rounds up: 7 / 3 is 2.33, rounded up to 3."
+        },
+        {
+          "type": "choice",
+          "prompt": "Piles [3, 6, 7, 11], 8 hours. Smallest k that finishes?",
+          "options": ["4", "3", "6", "11"],
+          "answer": 0,
+          "why": "k = 4 takes 1 + 2 + 2 + 3 = 8 hours. k = 3 takes 10."
+        },
+        {
+          "type": "choice",
+          "prompt": "What's a safe hi to start from here?",
+          "options": ["The biggest pile", "h", "The number of piles", "1"],
+          "answer": 0,
+          "why": "At that speed every pile takes one hour, so it works whenever any speed does."
+        },
+        {
+          "type": "choice",
+          "prompt": "Why while (lo < hi) here, not lo <= hi?",
+          "options": ["With hi = mid, lo <= hi can loop forever", "It's only style", "It's faster", "It avoids overflow"],
+          "answer": 0,
+          "why": "Once lo == hi, mid = lo and hi = mid changes nothing. The loop never ends."
+        },
+        {
+          "type": "order",
+          "prompt": "Build the answer search",
+          "lines": [
+            "while (lo < hi) {",
+            "long long mid = lo + (hi - lo) / 2;",
+            "if (ok(mid)) hi = mid;",
+            "else lo = mid + 1;",
+            "}"
+          ],
+          "why": "Keep mid when it works, skip past it when it doesn't."
+        },
+        {
+          "type": "choice",
+          "prompt": "ok(x) is O(n) and x goes up to 10⁹. Total time?",
+          "options": ["About 30 · n", "About n", "About 10⁹", "About n²"],
+          "answer": 0,
+          "why": "log₂(10⁹) ≈ 30 checks, each O(n)."
+        },
+        {
+          "type": "match",
+          "prompt": "Match what you see to what you do",
+          "pairs": [
+            ["ok(mid) is true", "hi = mid"],
+            ["ok(mid) is false", "lo = mid + 1"],
+            ["lo == hi", "stop: that's the answer"]
+          ],
+          "why": "The range always holds the answer, and it shrinks every step."
+        }
+      ]
+    }
+  ]
+}
