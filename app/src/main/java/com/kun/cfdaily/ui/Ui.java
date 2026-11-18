@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
+import com.kun.cfdaily.R;
 import com.kun.cfdaily.data.Mode;
 
 import java.util.Locale;
@@ -124,6 +125,25 @@ public class Ui {
         if (label.equals("Div 4")) return 0xFFFFC66B;
         if (label.equals("Edu")) return 0xFFB49BFF;
         return 0xFF9AA0AE;
+    }
+
+    private static final String[] UNIT_COLORS = {"mint", "sky", "lilac", "peach", "butter", "rose"};
+    private static final int[] UNIT_FILLS = {R.color.p_mint, R.color.p_sky, R.color.p_lilac, R.color.p_peach, R.color.p_butter, R.color.p_rose};
+    private static final int[] UNIT_INKS = {R.color.mint, R.color.blue, R.color.violet, R.color.coral, R.color.amber, R.color.pink};
+
+    private static int unitIndex(String color) {
+        for (int i = 0; i < UNIT_COLORS.length; i++) if (UNIT_COLORS[i].equals(color)) return i;
+        return 0;
+    }
+
+    /** Pastel background for a lesson unit's colour name (content/learn: mint, sky, lilac, peach, butter, rose). */
+    public static int unitFill(Context c, String color) {
+        return c.getColor(UNIT_FILLS[unitIndex(color)]);
+    }
+
+    /** Strong colour for the same unit: icons, bars, accents. */
+    public static int unitInk(Context c, String color) {
+        return c.getColor(UNIT_INKS[unitIndex(color)]);
     }
 
     public static void open(Context c, String url) {
