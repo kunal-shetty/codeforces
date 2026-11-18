@@ -10,6 +10,13 @@
         android:name="android.permission.SCHEDULE_EXACT_ALARM"
         android:maxSdkVersion="32" />
 
+    <!-- Lesson read-aloud: lets the app see the phone's text-to-speech engine (Android 11+). -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,12 +26,25 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- The server sends the browser here after Google sign-in. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="upsolve" android:host="auth" />
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.LessonActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".data.ReminderReceiver"
