@@ -32,6 +32,15 @@ public class RingView extends View {
         invalidate();
     }
 
+    /** Sweeps from the current value to the new one. */
+    public void animateTo(float target) {
+        android.animation.ValueAnimator a = android.animation.ValueAnimator.ofFloat(fraction, Math.max(0, Math.min(1, target)));
+        a.setDuration(900);
+        a.setInterpolator(new android.view.animation.DecelerateInterpolator(2));
+        a.addUpdateListener(x -> set((float) x.getAnimatedValue()));
+        a.start();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         float inset = track.getStrokeWidth() / 2 + 1;
