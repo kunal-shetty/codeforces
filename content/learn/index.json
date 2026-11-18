@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "dsa",
+      "title": "DSA patterns",
+      "units": ["two-pointers", "binary-search", "prefix-sums"]
+    }
+  ]
+}
