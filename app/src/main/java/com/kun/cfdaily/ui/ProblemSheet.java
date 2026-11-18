@@ -211,7 +211,7 @@ public class ProblemSheet {
         TextView get = chip("Get key", true, v -> Ui.open(a, "https://console.groq.com/keys"));
         TextView go = chip("Profile", false, v -> {
             a.hideSheet();
-            a.select(4);
+            a.select(MainActivity.TAB_PROFILE);
         });
         go.setBackgroundResource(R.drawable.bg_chip_soft);
         row.addView(get);
