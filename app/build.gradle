@@ -12,6 +12,25 @@ android {
         targetSdk 34
         versionCode 7
         versionName "3.1"
+
+        // Upsolve server for accounts and backup: upsolve.api in local.properties, or UPSOLVE_API_URL.
+        // Empty means the app stays fully offline and hides the sign-in card.
+        def local = new Properties()
+        def localFile = rootProject.file("local.properties")
+        if (localFile.exists()) localFile.withInputStream { local.load(it) }
+        def api = local.getProperty("upsolve.api") ?: (System.getenv("UPSOLVE_API_URL") ?: "")
+        buildConfigField "String", "API_URL", "\"${api}\""
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    // Lessons live in content/ at the repo root, shared with the backend.
+    sourceSets {
+        main {
+            assets.srcDirs += ['../content']
+        }
     }
 
     // Release signing comes from environment variables (set by the Release workflow from repository secrets),
